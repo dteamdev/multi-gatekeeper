@@ -21,3 +21,7 @@
 .idea/
 *.tmproj
 .vscode/
+
+preview.sh
+helm-fan-out.sh
+result/

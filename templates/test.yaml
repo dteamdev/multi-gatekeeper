@@ -1,0 +1,94 @@
+{{- range .Values.gatekeeperTargets }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .name }}-proxy
+  namespace: {{ .namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ .name }}-proxy
+      app.kubernetes.io/instance: internal
+      app.kubernetes.io/component: gatekeeper-proxy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ .name }}-proxy
+        app.kubernetes.io/instance: internal
+        app.kubernetes.io/component: gatekeeper-proxy
+    spec:
+      containers:
+      - args:
+        - --listen=0.0.0.0:80
+        - --discovery-url=https://keycloak.dteam.dev/auth/realms/master
+        - --client-id=kubernetes
+        - --client-secret=f36399bd-41b5-49e8-9ef8-c2d8392fc457
+        - --redirection-url=https://{{ .host }}
+        - --enable-refresh-tokens=true
+        - --encryption-key=ooTh6Chei1eefooyovai5ohwienuquoh
+        - --upstream-url={{ .target }}
+        - --resources=uri={{ .resources }}
+        image: keycloak/keycloak-gatekeeper
+        name: kubernetes-dashboard-proxy
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /oauth/health
+            port: 80
+          initialDelaySeconds: 3
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /oauth/health
+            port: 80
+          initialDelaySeconds: 3
+          timeoutSeconds: 2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .name }}-proxy
+  namespace: {{ .namespace }}
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app.kubernetes.io/name: {{ .name }}-proxy
+    app.kubernetes.io/instance: internal
+    app.kubernetes.io/component: gatekeeper-proxy
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .name }}-proxy
+  namespace: {{ .namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .name }}-proxy
+    app.kubernetes.io/instance: internal
+    app.kubernetes.io/component: gatekeeper-proxy
+  annotations:
+      kubernetes.io/tls-acme: "true"
+spec:
+  tls:
+    - hosts:
+        - {{ .host }}
+      secretName: {{ .name }}-proxy-tls-cert
+  rules:
+    - host: {{ .host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .name }}-proxy
+                port:
+                  number: 80
+{{- end }}

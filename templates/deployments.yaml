@@ -1,0 +1,84 @@
+{{- $context := . -}}
+{{- $labels := include "multi-gatekeeper.labels" . -}}
+{{- $selectorLabels := include "multi-gatekeeper.selectorLabels" . -}}
+{{- $chart := .Chart -}}
+{{- $values := .Values -}}
+
+{{- range .Values.proxies }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "multi-gatekeeper.name" . }}
+  namespace: {{ .namespace }}
+  labels:
+    {{- $labels | nindent 4 }}
+spec:
+  replicas: {{ $values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- $selectorLabels | nindent 6 }}
+      app.kubernetes.io/name: {{ include "multi-gatekeeper.name" . }}
+  template:
+    metadata:
+      {{- with $values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- $selectorLabels | nindent 8 }}
+        app.kubernetes.io/name: {{ include "multi-gatekeeper.name" . }}
+    spec:
+      {{- with $values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml $values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ $chart.Name }}
+          args:
+          - --listen=0.0.0.0:80
+          - --discovery-url={{ $values.discoveryUrl }}
+          - --client-id={{ .clientId | default $values.clientId }}
+          - --client-secret={{ .clientSecret | default $values.clientSecret }}
+          - --redirection-url=https://{{ .host }}
+          - --enable-refresh-tokens={{ $values.enableRefreshTokens }}
+          - --encryption-key={{ .encryptionKey | default $values.encryptionKey | default (randAlphaNum 20) }}
+          - --upstream-url={{ .target }}
+          - --resources={{ .resources }}
+          securityContext:
+            {{- toYaml $values.securityContext | nindent 12 }}
+          image: "{{ $values.image.repository }}:{{ $values.image.tag | default $chart.AppVersion }}"
+          imagePullPolicy: {{ $values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /oauth/health
+              port: http
+            initialDelaySeconds: 3
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /oauth/health
+              port: http
+            initialDelaySeconds: 3
+            timeoutSeconds: 2
+          resources:
+            {{- toYaml $values.resources | nindent 12 }}
+      {{- with $values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

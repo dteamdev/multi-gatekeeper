@@ -1,0 +1,42 @@
+{{- if .Values.ingress.enabled -}}
+
+{{- $labels := include "multi-gatekeeper.labels" . -}}
+{{- $values := .Values -}}
+
+{{- range .Values.proxies }}
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "multi-gatekeeper.name" . }}
+  labels:
+    {{- $labels | nindent 4 }}
+  {{- with $values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if .tls }}
+  tls:
+    {{- range .tls }}
+    - hosts:
+        {{- tls.hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- $svcName := include "multi-gatekeeper.name" . }}
+    {{- range .hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ $svcName }}
+              servicePort: {{ $values.service.port }}
+    {{- end }}
+  {{- end }}
+
+{{- end }}
