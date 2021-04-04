@@ -1,4 +1,4 @@
-# multi-keycloak-gatekeeper
+# multi-gatekeeper
 
 [keycloak-gatekeeper](https://hub.docker.com/r/keycloak/keycloak-gatekeeper) is an application that can be used to easily enable authentication flows via OIDC for a kubernetes cluster.
 
