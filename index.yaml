@@ -3,7 +3,31 @@ entries:
   multi-gatekeeper:
   - apiVersion: v2
     appVersion: 5.0.0
-    created: "2021-04-11T18:17:22.395455725+03:00"
+    created: "2021-04-11T18:37:57.738483992+03:00"
+    description: Chart for simplify deploing multiple keycloak-gatekeeper proxies
+    digest: 5d004518b93f65061d240c11abe462a99b7e899c4344aba8dd7863912b50c677
+    home: https://github.com/sergeyshevch/multi-gatekeeper
+    icon: https://static.thenounproject.com/png/3752548-200.png
+    keywords:
+    - keycloak-gatekeeper
+    - sso
+    - keycloak
+    - gatekeeper
+    maintainers:
+    - email: sergeyshevchdevelop@gmail.com
+      name: sergeyshevch
+      url: https://github.com/sergeyshevch
+    name: multi-gatekeeper
+    sources:
+    - https://hub.docker.com/r/keycloak/keycloak-gatekeeper
+    - https://github.com/louketo/louketo-proxy
+    type: application
+    urls:
+    - multi-gatekeeper-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
+    appVersion: 5.0.0
+    created: "2021-04-11T18:37:57.736812473+03:00"
     description: Chart for simplify deploing multiple keycloak-gatekeeper proxies
     digest: 4218e4e6f797d395971e6f2eb31729bd90b2303563ce5739d110bbb839230abc
     home: https://github.com/sergeyshevch/multi-gatekeeper
@@ -25,4 +49,4 @@ entries:
     urls:
     - multi-gatekeeper-1.0.0.tgz
     version: 1.0.0
-generated: "2021-04-11T18:17:22.39452668+03:00"
+generated: "2021-04-11T18:37:57.735050414+03:00"

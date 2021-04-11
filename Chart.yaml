@@ -2,7 +2,7 @@ apiVersion: v2
 name: multi-gatekeeper
 description: Chart for simplify deploing multiple keycloak-gatekeeper proxies
 type: application
-version: 1.0.0
+version: 1.0.1
 appVersion: 5.0.0
 icon: https://static.thenounproject.com/png/3752548-200.png
 keywords:

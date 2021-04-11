@@ -20,7 +20,7 @@ spec:
   tls:
     {{- range .tls }}
     - hosts:
-        {{- tls.hosts }}
+        {{- .hosts }}
         - {{ . | quote }}
         {{- end }}
       secretName: {{ .secretName }}
