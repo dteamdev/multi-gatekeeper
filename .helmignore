@@ -25,3 +25,6 @@
 preview.sh
 helm-fan-out.sh
 result/
+
+*.tgz
+index.yaml
