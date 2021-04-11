@@ -9,6 +9,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "multi-gatekeeper.name" . }}
+  namespace: {{ .namespace }}
   labels:
     {{- $labels | nindent 4 }}
 spec:
