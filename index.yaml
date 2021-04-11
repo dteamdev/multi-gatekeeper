@@ -3,9 +3,9 @@ entries:
   multi-gatekeeper:
   - apiVersion: v2
     appVersion: 5.0.0
-    created: "2021-04-11T18:37:57.738483992+03:00"
+    created: "2021-04-11T18:51:40.175660163+03:00"
     description: Chart for simplify deploing multiple keycloak-gatekeeper proxies
-    digest: 5d004518b93f65061d240c11abe462a99b7e899c4344aba8dd7863912b50c677
+    digest: 7c82ee1f731d051b03256f394f1021bab429da74c754d29dbead5d01bb74fd4f
     home: https://github.com/sergeyshevch/multi-gatekeeper
     icon: https://static.thenounproject.com/png/3752548-200.png
     keywords:
@@ -27,7 +27,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 5.0.0
-    created: "2021-04-11T18:37:57.736812473+03:00"
+    created: "2021-04-11T18:51:40.173521513+03:00"
     description: Chart for simplify deploing multiple keycloak-gatekeeper proxies
     digest: 4218e4e6f797d395971e6f2eb31729bd90b2303563ce5739d110bbb839230abc
     home: https://github.com/sergeyshevch/multi-gatekeeper
@@ -49,4 +49,4 @@ entries:
     urls:
     - multi-gatekeeper-1.0.0.tgz
     version: 1.0.0
-generated: "2021-04-11T18:37:57.735050414+03:00"
+generated: "2021-04-11T18:51:40.170325917+03:00"
