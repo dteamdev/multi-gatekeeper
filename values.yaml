@@ -72,6 +72,7 @@ proxies: []
 #  - name: kubernetes-dashboard
 # App namespace. Proxy will deploy to this namespace
 #    namespace: kubernetes-dashboard
+#    redirectionUrl: https://k8s-dashboard.example.com
 #    hosts:
 #      - k8s-dashboard.example.com
 #    tls:

@@ -42,7 +42,7 @@ spec:
           - --discovery-url={{ $values.discoveryUrl }}
           - --client-id={{ .clientId | default $values.clientId }}
           - --client-secret={{ .clientSecret | default $values.clientSecret }}
-          - --redirection-url=https://{{ .host }}
+          - --redirection-url={{ .redirectionUrl }}
           - --enable-refresh-tokens={{ $values.enableRefreshTokens }}
           - --encryption-key={{ .encryptionKey | default $values.encryptionKey | default (randAlphaNum 20) }}
           - --upstream-url={{ .target }}
