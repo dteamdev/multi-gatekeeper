@@ -1,12 +1,13 @@
 # multi-gatekeeper
+[![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/dteam-helm-charts)](https://artifacthub.io/packages/search?repo=dteam-helm-charts)
 
 [keycloak-gatekeeper](https://hub.docker.com/r/keycloak/keycloak-gatekeeper) is an application that can be used to easily enable authentication flows via OIDC for a kubernetes cluster.
 
 ## Installation
 
 ```bash
-helm repo add sergeyshevch sergeyshevch.github.io/charts
-helm install sergeyshevh/multi-gatekeeper -n kube-system -f your.values.yaml
+helm repo add dteam https://dteamdev.github.io/charts
+helm install dteam/multi-gatekeeper -n kube-system -f your.values.yaml
 ```
 
 ## Introduction
